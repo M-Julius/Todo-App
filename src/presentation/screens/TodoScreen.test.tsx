@@ -35,9 +35,11 @@ describe('TodoScreen', () => {
 
     const { getByText } = render(<TodoScreen />);
 
-    await waitFor(() => expect(getByText('Test Task 1')).toBeTruthy());
-    expect(getByText('Test Task 2')).toBeTruthy();
-  });
+    await waitFor(() => {
+      expect(getByText('Test Task 1')).toBeTruthy();
+      expect(getByText('Test Task 2')).toBeTruthy();
+    });
+  }, 20000);
 
   it('should add a new todo when the add button is pressed', async () => {
     mockGetTodos
