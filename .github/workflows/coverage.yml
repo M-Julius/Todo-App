@@ -1,15 +1,28 @@
-name: Test Coverage
+name: Run tests and upload coverage
 
-on: [push]
+on: 
+  push
 
 jobs:
   test:
+    name: Run tests and collect coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Dependencies
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
         run: yarn install
-      - name: Run Tests and Generate Coverage
-        run: yarn test -- --coverage
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v3
+
+      - name: Run tests
+        run: npx jest --coverage
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
